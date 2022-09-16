@@ -68,6 +68,7 @@ INSTALLED_APPS = [
 #    'api',
 #    'asynctask',
     'station',
+    'thingspeak',
 ]
 
 MIDDLEWARE = [

@@ -110,7 +110,3 @@ class AlertSensor(models.Model):
 
     class Meta:
         ordering = ("-datetime_creation",)
-
-class ThinkspeakStation(models.Model):
-    json = models.JSONField()
-    station = models.ForeignKey(Station, on_delete=models.CASCADE)

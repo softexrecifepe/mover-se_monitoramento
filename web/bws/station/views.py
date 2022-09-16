@@ -181,11 +181,3 @@ def deleteAlert(request, id):
         return redirect('station:alert')
 
     return render(request, 'station:alert', {})
-
-
-def newStationThinkspeak(request):
-    
-    if request.method == 'POST':
-        form = CreateThinkspeakForm(request.POST)
-
-    return render(request, 'station/think_station.html')#, {'alerts': alerts, 'stations': stations, 'time': time, 'operator': operator, 'form': form})

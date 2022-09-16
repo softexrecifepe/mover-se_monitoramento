@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('web.urls', namespace='web')),
     path('station/', include('station.urls', namespace='station')),
+    path('thingspeak/', include('thingspeak.urls', namespace="thingspeak")),
 ]

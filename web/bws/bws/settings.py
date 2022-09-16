@@ -65,9 +65,8 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     'web',
-    'api',
-    'asynctask',
-    'watersource',
+#    'api',
+#    'asynctask',
     'station',
 ]
 

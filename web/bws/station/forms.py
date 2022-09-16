@@ -14,3 +14,9 @@ class CreateAlertSensorForm(forms.ModelForm):
         model = AlertSensor
         fields = ['station', 'sensor_type', 'operator',
                   'main_value', 'second_value', 'time_frequency']
+
+
+class CreateAlertSensorForm(forms.ModelForm):
+    class Meta:
+        model = ThinkspeakStation
+        fields = ['json']

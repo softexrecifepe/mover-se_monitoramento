@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block css-files %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/alert.css' %}">
+    <link rel="stylesheet" href="{% static 'css/label.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div id="station">
+
+        <h2>Criação de Estação com Dados do Thinkspeak</h2>
+        
+        <hr>
+
+        {% for message in messages %}
+            <p id="messages">{{ message }}</p>
+        {% endfor %}
+
+
+        <div class="row" style="margin-top: 10px;">
+
+            <div class="col-xs-3 col-sm-3 col-md-3" id="main-value">
+                <label class="label-description" for="main_value">Canal</label>
+                <input type="number" placeholder="Digite aqui..." id="channel-id" class="form-control" style="height: 45px;" name="main_value">
+            </div>
+
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <input type="submit" value="Carregar" id="thinkspeakLoadBtn" class="btn btn-success" style="margin-top: 35px; height: 45px;">
+                <input type="submit" value="Limpar" id="thinkspeakCleanBtn" class="btn btn-danger" style="margin-top: 35px; height: 45px;">
+            </div>
+
+        </div>
+
+        </br>
+    
+        <form  method="POST">
+            {% csrf_token %}
+
+            <div class="row" style="margin-top: 10px;" id="jsonDiv" hidden>
+                <div class="col-xs-8 col-sm-8 col-md-8" id="main-value">
+                    <label class="label-description">JSON do Thinkspeak</label>
+                    <textarea class="form-control" id="jsonThinkspeak" readonly  rows="20"></textarea>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <input type="submit" value="Criar Estação" id="createStation" class="btn btn-primary" style="margin-top: 35px; height: 45px;">
+                </div>
+            </div>
+        
+        </form>
+       
+</div>
+
+
+{% endblock %}
+
+{% block scripts-footer %}
+    {% load static %}
+    <script src="{% static 'js/sensorAjax.js' %}"></script>
+    <script src="{% static 'js/stationThinkspeak.js' %}"></script>
+{% endblock %}

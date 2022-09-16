@@ -1,6 +1,5 @@
 from django.core.mail import send_mail
 from bws.settings import EMAIL_FAIL_SILENT, DEFAULT_FROM_EMAIL
-from watersource.models import WaterSource
 from station.models import AlertSensor, Station
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -21,8 +20,6 @@ def index(request):
 def map(request):
 
     pointers_station = Station.objects.all()
-    pointers_springs_water = WaterSource.objects.all()
-
     stations = list()
     springs_water = list()
 
@@ -36,17 +33,7 @@ def map(request):
             'url': 'station/'
         })
 
-    for spring_water in pointers_springs_water:
-        springs_water.append({
-            'id': spring_water.id,
-            'titulo': spring_water.identification,
-            'lat': spring_water.latitude,
-            'lon': spring_water.longitude,
-            'custom_icon': 'springwater.png',
-            'url': 'spring-water/view/'
-        })
-
-    return JsonResponse({'map': [stations, springs_water]}, safe=False)
+    return JsonResponse({'map': [stations]}, safe=False)
 
 
 def searchPointer(request):
@@ -56,18 +43,12 @@ def searchPointer(request):
     if request.is_ajax():
 
         station = Station.objects.filter(identification__icontains=search)
-        spring_water = WaterSource.objects.filter(
-            identification__icontains=search)
 
         searchPointers = list()
 
         for i in range(len(station)):
             searchPointers.append({'id': station[i].id, 'name': station[i].identification,
                                   'description': station[i].station_type.name, 'path': 'station/'})
-
-        for i in range(len(spring_water)):
-            searchPointers.append({'id': spring_water[i].id, 'name': spring_water[i].identification,
-                                  'description': spring_water[i].description, 'path': 'spring-water/view/'})
 
         return JsonResponse({'point': searchPointers}, status=200)
 
@@ -135,8 +116,8 @@ def perfil(request, id):
     user = User.objects.get(id=id)
     alert = len(AlertSensor.objects.filter(user=user))
     # Deixar o objeto para ser exibido o link de todas as nascentes num futuro.
-    watersources = WaterSource.objects.filter(user=user)
-    return render(request, 'web/perfil.html', {'user': user, 'countAlert': alert, 'watersources': watersources})
+
+    return render(request, 'web/perfil.html', {'user': user, 'countAlert': alert})
 
 
 def about(request):

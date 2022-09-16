@@ -13,4 +13,5 @@ urlpatterns = [
     path('<int:id>/ajax/sensor/', views.sensorValuesAjax, name='sensorValuesAjax'),
     path('<int:id_station>/sensor/<str:id_sensor>/',
          views.sensorDetail, name='sensor_detail'),
+    path("station/new", views.newStationThinkspeak, name='new_station_thinkspeak')
 ]

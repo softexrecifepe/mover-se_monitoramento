@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -109,3 +110,7 @@ class AlertSensor(models.Model):
 
     class Meta:
         ordering = ("-datetime_creation",)
+
+class ThinkspeakStation(models.Model):
+    json = models.JSONField()
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)

@@ -1,7 +1,7 @@
 from django import forms
-from .models import ThinkspeakStation
+from .models import ThingspeakStation
 
 class CreateThingspeakStationForm(forms.ModelForm):
     class Meta:
-        model = ThinkspeakStation
+        model = ThingspeakStation
         fields = ['json',]

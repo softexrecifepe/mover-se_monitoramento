@@ -34,10 +34,10 @@ class Sensor(models.Model):
         (2, 'Thermometer'),
         (3, 'Number'),
     )
-
-    key = models.CharField(primary_key=True, max_length=20)
-    name = models.CharField(max_length=100, unique=True)
-    graphic_type = models.IntegerField(default=1, choices=GRAPH_CHOICE)
+    id  = models.AutoField(primary_key=True)
+    key = models.CharField(unique=False, max_length=20)
+    name = models.CharField(max_length=50, unique=False)
+    graphic_type = models.IntegerField(default=3, choices=GRAPH_CHOICE)
     deleted = models.BooleanField(default=False)
 
     def __str__(self):

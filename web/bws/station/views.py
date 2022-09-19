@@ -2,7 +2,9 @@ import datetime
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Station, SensorStation, SensorValue, AlertSensor
+
+from thingspeak.models import ChartConfigSensor, ThingspeakStation
+from .models import Sensor, Station, SensorStation, SensorValue, AlertSensor
 import logging
 from .forms import CreateAlertSensorForm, CreateSensorValueForm
 from django.forms.models import model_to_dict
@@ -19,23 +21,37 @@ def stationDetail(request, id):
     pointer_station = get_object_or_404(Station, pk=id)
 
     sensors_types = SensorStation.objects.filter(
-        station__pk=int(id)).values('sensor_type__key')
+        station__pk=int(id)).values('sensor_type__id', 'sensor_type__key')
 
     data = {}
     graphic = []
+    thingspeak_sensors = []
+    if pointer_station.station_type.key == 'thing_station':
+        thing_station = ThingspeakStation.objects.get(station=pointer_station)
+        for data in sensors_types:
+            sensor_id = data['sensor_type__id'] 
+            sensor_field = data['sensor_type__key']
+            chart_config = ChartConfigSensor.objects.filter(sensor__id=sensor_id).first()
+            if chart_config:
+                channel = thing_station.channel
+                field_number = sensor_field.replace('field', '')
+                url = chart_config.config.get_request(channel, field_number)
+                sensor_dict =  {'channel': channel, 'url': url, 'sensor_field': sensor_field, 'name': chart_config.sensor.name}
+                thingspeak_sensors.append(sensor_dict)
+    else:
+        for _, data_sensor in sensors_types:
+            sensor_type = data_sensor['sensor_type__key']
+            queryset = SensorValue.objects.filter(
+                station_id=pointer_station.id, sensor_type__key=sensor_type)
+            if queryset:
+                sensor = queryset.latest('datetime_collected')
+                dict_obj = model_to_dict(sensor)
+                data[sensor_type] = dict_obj
+                data[sensor_type]['sensor_type_name'] = sensor.sensor_type.name
+                graphic.append(sensor)
 
-    for data_sensor in sensors_types:
-        sensor_type = data_sensor['sensor_type__key']
-        queryset = SensorValue.objects.filter(
-            station_id=pointer_station.id, sensor_type__key=sensor_type)
-        if queryset:
-            sensor = queryset.latest('datetime_collected')
-            dict_obj = model_to_dict(sensor)
-            data[sensor_type] = dict_obj
-            data[sensor_type]['sensor_type_name'] = sensor.sensor_type.name
-            graphic.append(sensor)
-
-    return render(request, 'station/stationDetails.html', {'pointer_station': pointer_station, 'sensors': data, 'graphic': graphic})
+    return render(request, 'station/stationDetails.html', {'pointer_station': pointer_station, 'sensors': data, 'graphic': graphic, 
+                                                            'thingspeak_sensor': thingspeak_sensors})
 
 
 def sensorDetail(request, id_station, id_sensor):

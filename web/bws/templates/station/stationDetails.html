@@ -42,7 +42,7 @@
     </div> <!-- div station -->
 
     
-    {% if graphic  %}
+    {% if graphic or thingspeak_sensor %}
 
     <div id="graphics" style="margin-top: 5px;">
 
@@ -51,7 +51,16 @@
         <hr>
         <!-- div dos graficos -->
         <div class="row">
+            <!-- Thingspeak Sensor -->
 
+                {% for sensor in thingspeak_sensor %}
+                <div class="card" style="width: 50rem; margin-top: .5rem; margin-left:0.5rem;">
+                    <h5 class="card-header"> {{sensor.name}} </h5>
+                    <iframe style="border: 1px solid #cccccc; " src="{{sensor.url}}"></iframe>
+                </div>
+                {% endfor %}
+            
+             <!-- Regular Sensor -->
                 {% for graphic in graphic %}
 
                     {% if graphic.sensor_type.graphic_type == 1 %}
@@ -90,6 +99,7 @@
     </div> <!--  div graficos-->
     
     <!-- div dos dados do sensor selecionado -->
+    {% if sensor %}
     <div class="sensor" style="margin-top: 10px;">
 
         <h2>Sensor</h2>
@@ -127,6 +137,8 @@
         </div>
 
     </div> <!-- div valores do sensor -->
+    {% endif %}
+
     {% endif %}
 </div> <!--div principal -->
 

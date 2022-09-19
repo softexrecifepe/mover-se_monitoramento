@@ -4,18 +4,28 @@
 {% block content %}
 
 <div class="container" style="margin-top: 15px">
-    <h2>Lista de Estações do Thingspeak</h2>
+    <h2>Estações do Implantadas</h2>
     </br>
-
-
-
-    {% for station in stations %}
-
-    <p> {{station.station}}</p>
-
-    {% endfor %}
-    
-    {% if not stations %}
+    {% if stations %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Canal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for station in stations %}
+                <tr>
+                  <th scope="row">{{forloop.counter	}}</th>
+                  <td><a href="/station/{{station.station.id}}">{{station.station.identification}}</a></td>
+                  <td>{{station.channel}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
         <p>Não há estações cadastradas.</p>
     {% endif %}
     

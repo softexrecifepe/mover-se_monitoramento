@@ -41,7 +41,7 @@ class Sensor(models.Model):
     deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} - {self.key}"
 
 
 class SensorStation(models.Model):

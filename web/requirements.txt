@@ -14,6 +14,7 @@ click-repl==0.2.0
 Django==3.2.9
 django-celery-beat==2.2.1
 django-celery-results==2.2.0
+django-colorfield==0.7.2
 django-environ==0.8.1
 django-filter==21.1
 django-timezone-field==4.2.1
@@ -26,12 +27,12 @@ kombu==5.2.1
 Markdown==3.3.4
 MarkupSafe==2.0.1
 mccabe==0.6.1
+numpy==1.21.4
 Pillow==8.4.0
+prompt-toolkit==3.0.22
+psycopg2==2.8.6
 pycodestyle==2.8.0
 pyflakes==2.4.0
-prompt-toolkit==3.0.22
-numpy==1.21.4
-psycopg2==2.8.6
 python-crontab==2.6.0
 python-dateutil==2.8.2
 pytz==2021.3

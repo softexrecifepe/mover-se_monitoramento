@@ -1,10 +1,8 @@
-
-
-
 from dataclasses import field
 from station.models import Sensor, SensorStation, Station, StationType
 from thingspeak.models import ThingspeakStation
 from django.utils.dateparse import parse_datetime
+from django.contrib import messages
 
 
 class ThingspekerParser():
@@ -15,7 +13,7 @@ class ThingspekerParser():
         self.thing_station_model = thing_station_model
         self.field_available = []
 
-    def parse_create_station(self):
+    def parse_station(self):
         
         if self.__is_channel():
             self.thing_station_model.channel = self.__get_in_channel('id')
@@ -35,11 +33,22 @@ class ThingspekerParser():
                                 )
             self.station_model.station_type = station_type
             self.thing_station_model.station = self.station_model
-        else:
-            pass # error
         
+    def is_valid(self, request):
+        is_valid = True
+        if not self.__is_channel():
+            is_valid = False
+            messages.error(request, "\'Channel\' não está no JSON.")
+        
+        if not self.__is_station_valid():
+            is_valid = False
+            messages.error(request, 'Estação inválida')
 
-        self.validade_station()
+
+        
+        return is_valid
+    
+    def create_models(self):
         self.station_model.station_type.save()
         self.station_model.save()
         self.thing_station_model.save()
@@ -68,8 +77,8 @@ class ThingspekerParser():
             else:
                 break
         
-    def validade_station(self):
-        pass
+    def __is_station_valid(self):
+        return True
 
     def __is_channel(self):
         return 'channel' in self.json

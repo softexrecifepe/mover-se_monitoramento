@@ -22,8 +22,15 @@ def newStationThingspeak(request):
             #create_station_from_json()
             thingspeak_station_model = form.save(commit=False)
             tp = ThingspekerParser(json, thingspeak_station_model)
-            tp.parse_create_station()            
-            messages.success(request, 'Estação cadastrada com sucesso!')
+            tp.parse_station()
+            
+            if tp.is_valid(request):
+                tp.create_models()
+                messages.success(request, 'Estação cadastrada com sucesso!')
+            else:
+                messages.error(request, 'Os dados da estação não são válidos')
+        else:
+            messages.error(request, 'O formulário possui Informações inválidas')
 
 
 

@@ -4,5 +4,5 @@ from . import views
 app_name = 'api'
 
 urlpatterns = [
-    path('post_sensor_value', views.postSensorValue, name='postSensorValue'),
+    path('post_data', views.postSensorValue, name='postSensorValue'),
 ]

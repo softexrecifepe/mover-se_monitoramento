@@ -13,6 +13,7 @@ class StationType(models.Model):
 
 
 class Station(models.Model):
+    name = models.CharField(max_length=50)
     identification = models.CharField(max_length=50, unique=True)
     station_type = models.ForeignKey(
         StationType, on_delete=models.SET_NULL, null=True)
@@ -25,7 +26,7 @@ class Station(models.Model):
     deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.identification}"
+        return f"{self.name} ({self.identification})"
 
 
 class Sensor(models.Model):

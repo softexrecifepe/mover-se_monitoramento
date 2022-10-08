@@ -1,0 +1,19 @@
+URL: http://127.0.0.1:8000/api/post_data (Method Post)
+
+
+JSON: 
+
+{
+ "base_id": "teste",
+ "version": 1, 
+ "datetime": "2022-10-08T08:09:43.511Z",
+ "gps": {
+         "lat": 12345.123, 
+         "lng": 1212.123
+        },
+ "sensors": {
+      "altitude": 25
+    } 
+
+	
+}

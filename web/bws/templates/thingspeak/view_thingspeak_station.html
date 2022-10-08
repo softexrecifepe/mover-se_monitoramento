@@ -4,9 +4,9 @@
 {% block content %}
 
 <div class="container" style="margin-top: 15px">
-    <h2>Estações do Implantadas</h2>
+    <h2>Estações do Thingspeak</h2>
     </br>
-    {% if stations %}
+    {% if stations_thingspeak %}
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -16,18 +16,45 @@
                 </tr>
             </thead>
             <tbody>
-                {% for station in stations %}
+                {% for station in stations_thingspeak %}
                 <tr>
                   <th scope="row">{{forloop.counter	}}</th>
-                  <td><a href="/station/{{station.station.id}}">{{station.station.identification}}</a></td>
+                  <td><a href="/station/{{station.station.id}}">{{station.station.name}}</a></td>
                   <td>{{station.channel}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>Não há estações cadastradas.</p>
+        <p>Não há Thingspeak estações cadastradas.</p>
     {% endif %}
+
+    </br>
+    </br>
+    <h2>Outras Estações</h2>
+    </br>
+    {% if others_station %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for station in others_station %}
+            <tr>
+              <th scope="row">{{forloop.counter	}}</th>
+              <td><a href="/station/{{station.id}}">{{station.name}}</a></td>
+              <td>{{station.station_type}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Não há outras estações cadastradas.</p>
+{% endif %}
     
         
 </div>

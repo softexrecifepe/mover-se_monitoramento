@@ -9,7 +9,8 @@ from django.contrib.auth.decorators import login_required
 
 def viewStationThingspeak(request):
     stations_thing = ThingspeakStation.objects.all()
-    return render(request, 'thingspeak/view_thingspeak_station.html', {'stations': stations_thing})
+    other_stations = Station.objects.exclude(station_type__key='thing_station')
+    return render(request, 'thingspeak/view_thingspeak_station.html', {'stations_thingspeak': stations_thing, 'others_station': other_stations})
 
 @login_required
 def newStationThingspeak(request):
@@ -26,7 +27,7 @@ def newStationThingspeak(request):
             
             if tp.is_valid(request):
                 tp.create_models()
-                messages.success(request, 'Estação cadastrada com sucesso!')
+                messages.success(request, f'Estação {tp.thing_station_model.channel} cadastrada com sucesso!')
             else:
                 messages.error(request, 'Os dados da estação não são válidos')
         else:

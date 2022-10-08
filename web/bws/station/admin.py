@@ -12,9 +12,9 @@ class StationTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Station)
 class StationAdmin(admin.ModelAdmin):
-    list_display = ('identification', 'station_type',
+    list_display = ('name','identification', 'station_type',
                     'datetime_creation', 'latitude', 'longitude',)
-    fields = ('identification', 'station_type',
+    fields = ('name', 'identification', 'station_type',
               'description', 'latitude', 'longitude',)
 
 

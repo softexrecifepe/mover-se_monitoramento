@@ -26,7 +26,7 @@ def map(request):
     for station in pointers_station:
         stations.append({
             'id': station.id,
-            'titulo': station.identification,
+            'titulo': station.name,
             'lat': station.latitude,
             'lon': station.longitude,
             'custom_icon': 'water_quality.png',
@@ -42,12 +42,12 @@ def searchPointer(request):
 
     if request.is_ajax():
 
-        station = Station.objects.filter(identification__icontains=search)
+        station = Station.objects.filter(name__icontains=search)
 
         searchPointers = list()
 
         for i in range(len(station)):
-            searchPointers.append({'id': station[i].id, 'name': station[i].identification,
+            searchPointers.append({'id': station[i].id, 'name': station[i].name,
                                   'description': station[i].station_type.name, 'path': 'station/'})
 
         return JsonResponse({'point': searchPointers}, status=200)

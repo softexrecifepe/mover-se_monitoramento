@@ -21,7 +21,8 @@ class ThingspekerParser():
             latitude = self.__get_in_channel('latitude')
             longitude = self.__get_in_channel('longitude')
             self.station_model, _ = Station.objects.get_or_create(
-                                    identification = name, 
+                                    name = name,
+                                    identification = name.lower().replace(' ', '_'), 
                                     latitude=latitude, 
                                     longitude=longitude)
 

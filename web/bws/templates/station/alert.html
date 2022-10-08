@@ -28,7 +28,7 @@
                 <select class="form-select" id="select-station" onclick="" style="height: 45px;" name="station">
                     <option selected>Estações</option>
                     {% for station in stations %}
-                    <option value="{{station.id}}">{{station.identification}} - {{station.station_type}}</option>
+                    <option value="{{station.id}}">{{station.name}} - {{station.station_type}}</option>
                     {% endfor %}
                 </select>
             </div>

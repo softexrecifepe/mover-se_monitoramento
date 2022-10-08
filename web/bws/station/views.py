@@ -38,16 +38,19 @@ def stationDetail(request, id):
                 url = chart_config.config.get_request(channel, field_number)
                 sensor_dict =  {'channel': channel, 'url': url, 'sensor_field': sensor_field, 'name': chart_config.sensor.name}
                 thingspeak_sensors.append(sensor_dict)
+            else:
+                print(f"Não há configuração sensor de {sensor_field}")
     else:
-        for _, data_sensor in sensors_types:
-            sensor_type = data_sensor['sensor_type__key']
+        for data in sensors_types:
+            sensor_id = data['sensor_type__id'] 
+            sensor_key = data['sensor_type__key']
             queryset = SensorValue.objects.filter(
-                station_id=pointer_station.id, sensor_type__key=sensor_type)
+                station_id=pointer_station.id, sensor_type__key=sensor_key)
             if queryset:
                 sensor = queryset.latest('datetime_collected')
                 dict_obj = model_to_dict(sensor)
-                data[sensor_type] = dict_obj
-                data[sensor_type]['sensor_type_name'] = sensor.sensor_type.name
+                data[sensor_key] = dict_obj
+                data[sensor_key]['sensor_type_name'] = sensor.sensor_type.name
                 graphic.append(sensor)
 
     return render(request, 'station/stationDetails.html', {'pointer_station': pointer_station, 'sensors': data, 'graphic': graphic, 
@@ -61,7 +64,7 @@ def sensorDetail(request, id_station, id_sensor):
         station=id_station, sensor_type=id_sensor).first()
     if not sensor_station:
         raise Http404(
-            f"Sensor {id_sensor} not found in {station.identification}.")
+            f"Sensor {id_sensor} not found in {station.name}.")
     sensor = sensor_station.sensor_type
 
     sensorList = []

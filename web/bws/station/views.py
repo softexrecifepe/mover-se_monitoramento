@@ -23,7 +23,7 @@ def stationDetail(request, id):
     sensors_types = SensorStation.objects.filter(
         station__pk=int(id)).values('sensor_type__id', 'sensor_type__key')
 
-    data = {}
+    data_sensor = {}
     graphic = []
     thingspeak_sensors = []
     if pointer_station.station_type.key == 'thing_station':
@@ -49,11 +49,11 @@ def stationDetail(request, id):
             if queryset:
                 sensor = queryset.latest('datetime_collected')
                 dict_obj = model_to_dict(sensor)
-                data[sensor_key] = dict_obj
-                data[sensor_key]['sensor_type_name'] = sensor.sensor_type.name
+                data_sensor[sensor_key] = dict_obj
+                data_sensor[sensor_key]['sensor_type_name'] = sensor.sensor_type.name
                 graphic.append(sensor)
 
-    return render(request, 'station/stationDetails.html', {'pointer_station': pointer_station, 'sensors': data, 'graphic': graphic, 
+    return render(request, 'station/stationDetails.html', {'pointer_station': pointer_station, 'sensors': data_sensor, 'graphic': graphic, 
                                                             'thingspeak_sensor': thingspeak_sensors})
 
 
@@ -97,10 +97,10 @@ def sensorDetail(request, id_station, id_sensor):
         monthName = monthNames[monthCurrent-1]
 
     if firstDate and lastDate:
-        filteredData = SensorValue.objects.filter(sensor_type=sensor.key, station_id=station.id, datetime_collected__range=(
+        filteredData = SensorValue.objects.filter(sensor_type=sensor.id, station_id=station.id, datetime_collected__range=(
             firstDate, lastDate)).order_by('datetime_collected')
     else:
-        filteredData = SensorValue.objects.filter(sensor_type=sensor.key, station_id=station.id, datetime_collected__month=monthCurrent,
+        filteredData = SensorValue.objects.filter(sensor_type=sensor.id, station_id=station.id, datetime_collected__month=monthCurrent,
                                                   datetime_collected__year=datetime.datetime.now().year).order_by('datetime_collected')
 
     for sensorData in filteredData:
@@ -113,17 +113,17 @@ def sensorDetail(request, id_station, id_sensor):
     valueList.reverse()
 
     sensorCurrent = SensorValue.objects.filter(
-        sensor_type=sensor.key, station_id=station.id).latest('datetime_collected')
+        sensor_type=sensor.id, station_id=station.id).latest('datetime_collected')
     return render(request, 'station/sensorDetail.html', {'sensorCurrent': sensorCurrent, 'sensors': sensorList, 'data': valueList, 'month': monthName})
 
 
 def sensorValuesAjax(request, id):
 
-    sensor = request.GET.get('sensor')
+    sensor_id = request.GET.get('sensor_id')
 
     if request.is_ajax():
         sensor = SensorValue.objects.filter(
-            sensor_type=sensor, station=id).latest('datetime_collected')
+            sensor_type_id=sensor_id, station=id).latest('datetime_collected')
         sensorValues = list()
         sensorValues.append({'value': sensor.sensor_value,
                             'datetime': sensor.datetime_collected})

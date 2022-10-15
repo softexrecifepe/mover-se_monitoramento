@@ -5,7 +5,7 @@ $(document).ready(function(){
         $.ajax({
             type: 'GET',
             url:    'ajax/sensor/',
-            data: { sensor : $('#sensor-value').val()},
+            data: { sensor_id : $('#sensor-value').val()},
             success : function(response){
                 console.log($('#sensor-value').val())
 

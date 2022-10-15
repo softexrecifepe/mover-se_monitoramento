@@ -99,7 +99,7 @@
     </div> <!--  div graficos-->
     
     <!-- div dos dados do sensor selecionado -->
-    {% if sensor %}
+    {% if sensors %}
     <div class="sensor" style="margin-top: 10px;">
 
         <h2>Sensor</h2>
@@ -114,7 +114,7 @@
                 <select class="form-select" id="sensor-value" onclick="sensorValueData(this)">
                     <option selected>Escolher sensor</option>
                     {% for key, sensor in sensors.items %}
-                    <option value="{{key}}">{{sensor.sensor_type_name}}</option>
+                    <option value="{{sensor.sensor_type}}">{{sensor.sensor_type_name}}</option>
                     {% endfor %}
                 </select>
             </div>

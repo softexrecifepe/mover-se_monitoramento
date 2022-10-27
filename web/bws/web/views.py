@@ -29,7 +29,7 @@ def map(request):
             'titulo': station.name,
             'lat': station.latitude,
             'lon': station.longitude,
-            'custom_icon': 'water_quality.png',
+            'custom_icon': 'softex_station.png',
             'url': 'station/'
         })
 

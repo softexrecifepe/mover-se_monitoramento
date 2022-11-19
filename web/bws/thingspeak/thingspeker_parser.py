@@ -45,6 +45,11 @@ class ThingspekerParser():
             is_valid = False
             messages.error(request, 'Estação inválida')
 
+        channel = self.__get_in_channel('id')
+        station_exists = ThingspeakStation.objects.filter(channel=self.thing_station_model.channel).exists() 
+        if station_exists:
+            is_valid = False
+            messages.error(request, 'Estação já existe na base. É preciso remover a anterior.')
 
         
         return is_valid

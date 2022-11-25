@@ -26,7 +26,7 @@ $(document).ready(function(){
                     
                     //pegando imagem para criar o popup
                     var icon_pointer = L.icon({
-                        iconUrl : './static/img/icon/' + response.map[i][j].custom_icon,
+                        iconUrl : '/static/img/icon/' + response.map[i][j].custom_icon,
                         iconSize: [50,50],
                         iconAnchor: [22,94],
                         popuoAnchor: [0, -15]
